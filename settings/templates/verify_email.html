@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/verify_email.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+        <form action="{{ url_for('third.email_verification') }}" method="post">
+            <h1>Change your email</h1>
+            <label for="email" class="center-label">Enter your current email:</label>
+            <input type="email" name="email" id="email" required>
+            <label for="confirm_email" class="center-label">Confirm your email:</label>
+            <input type="email" name="confirm_email" id="confirm_email" required>
+            <label for="password" class="center-label">Enter your password:</label>
+            <input type="password" name="password" id="password" required>
+            <button type="submit" class="center-label">Change Email</button>
+        </form> 
+    </div>
+</body>
+
+</html>

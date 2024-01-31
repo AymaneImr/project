@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/new_pass.css">
+    <title>New password</title>
+</head>
+
+<body>
+    <form class="form" method="post">
+        <div class="form-title"><span>sign in to your</span></div>
+        <div class="title-2"><span>SPACE</span></div>
+        <div class="input-container">
+            <input class="input-mail" type="password" placeholder="New password" name="new_pass1">
+            <span> </span>
+        </div>
+
+        <section class="bg-stars">
+            <span class="star"></span>
+            <span class="star"></span>
+            <span class="star"></span>
+            <span class="star"></span>
+        </section>
+
+        <div class="input-container">
+            <input class="input-pwd" type="password" placeholder="Confirm password" name="new_pass2">
+        </div>
+        <button type="submit" class="submit">
+            <span class="sign-text">Sign in</span>
+        </button>
+
+        <p class="signup-link">
+            No account?
+            <a href="{{url_for('app.sign_up')}}" class="up">Sign up!</a>
+        </p>
+
+    </form>
+</body>
+
+</html>

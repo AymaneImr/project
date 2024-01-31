@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>ERROR404</title>
+        <style>
+        body {
+            background-image: url(static/images/download.jpg);
+            background-repeat: repeat;
+            background-size: auto;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            padding: 100px;
+        }
+
+        p {
+            align-items: center;
+            font-size: 90px;
+            color: red;
+            --glow-color: rgb(255, 0, 0);
+            --glow-spread-color: rgba(177, 6, 6, 0.781);
+            --enhanced-glow-color: rgb(0, 0, 0);
+            --btn-color: rgb(104, 0, 0);
+        }
+
+        p::after {
+            pointer-events: none;
+            position: absolute;
+            top: 120%;
+            left: 0;
+            height: 100em;
+            width: 100em;
+            background-color: var(--glow-spread-color);
+            filter: blur(2em);
+            opacity: .7;
+            transform: perspective(1.5em) rotateX(35deg) scale(1, .6);
+        }
+
+        p:hover {
+            color: var(--glow-color);
+            background-color: var(--glow-color);
+            box-shadow: 0 0 1em .25em var(--glow-color),
+                0 0 4em 2em var(--glow-spread-color),
+                inset 0 0 .75em .25em var(--glow-color);
+        }
+
+        p:active {
+            box-shadow: 0 0 0.6em .25em var(--glow-color),
+                0 0 2.5em 2em var(--glow-spread-color),
+                inset 0 0 .5em .25em var(--glow-color);
+        }
+
+        p {
+            border: .25em solid var(--glow-color);
+            padding: 10px 30px;
+            color: var(--glow-color);
+            font-size: 79px;
+            font-weight: bold;
+            background-color: var(--btn-color);
+            border-radius: 1em;
+            outline: none;
+            box-shadow: 0 0 1em .25em var(--glow-color),
+                0 0 4em 1em var(--glow-spread-color),
+                inset 0 0 .75em .25em var(--glow-color);
+            text-shadow: 0 0 .5em var(--glow-color);
+            position: relative;
+            transition: all 0.3s;
+            text-align: center;
+        }
+    </style>
+    </head>
+
+    <body>
+        <p>YOU CAN'T U NEED PERMISSION.</p>
+    </body>
+
+</html>

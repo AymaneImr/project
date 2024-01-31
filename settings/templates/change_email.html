@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/change_email.css">
+    <title>Document</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Change your email</h1>
+        <form action="{{ url_for('third.change_email') }}" method="post" class="mt-4">
+            <div class="form-group">
+                <label for="email" class="center-label">Enter your new email:</label>
+                <input type="email" name="email" id="email" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label for="confirm_email" class="center-label">Confirm your new email:</label>
+                <input type="email" name="confirm_email" id="confirm_email" class="form-control" required>
+            </div>
+            <button type="submit" class="center-label btn btn-primary">Change Email</button>
+        </form>
+    </div>
+</body>
+
+</html>

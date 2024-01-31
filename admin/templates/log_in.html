@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/log_in.css">
+    <title>Document</title>
+</head>
+
+<body>
+
+    <form class="form" method="post">
+        <div class="form-title"><span>sign in to your</span></div>
+        <div class="title-2"><span>SPACE</span></div>
+        <div class="input-container">
+            <input class="input-mail" type="text" placeholder="Username" name="username">
+            <span> </span>
+
+        </div>
+
+        <section class="bg-stars">
+            <span class="star"></span>
+            <span class="star"></span>
+            <span class="star"></span>
+            <span class="star"></span>
+        </section>
+
+        <div class="input-container">
+            <input class="input-pwd" type="password" placeholder="Enter password" name="password">
+        </div>
+        <button type="submit" class="submit">
+            <span class="sign-text">Sign in</span>
+        </button>
+
+        <p class="signup-link">
+            No account?
+            <a href="{{url_for('app.sign_up')}}" class="up">Sign up!</a>
+        </p>
+        <p>
+            <a href="{{url_for('app.backup_password')}}">
+                I forgot my password
+            </a>
+        </p>
+        <button type="button", onclick="window.location.href='{{ url_for('app.delete_data') }}';"></button>
+    </form>
+    
+
+</body>
+
+</html>
