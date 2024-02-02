@@ -7,7 +7,7 @@ from settings.settings import third
 from channels.channel import fourth
 from flask_login import LoginManager
 from flask_migrate import Migrate
-import os
+
 
 flask_app = Flask(__name__)
 flask_app.secret_key = "lovely29"
@@ -18,7 +18,7 @@ flask_app.app_context().push()
 
 UPLOAD_FOLDER = 'admin/static/images/'
 
-flask_app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://gogeta_user:NxCxcGMG5oIVJMldkOJwANoJpKPUE1Id@dpg-cmtcskqcn0vc73b9hpa0-a/gogeta'
+flask_app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://gogeta_user:NxCxcGMG5oIVJMldkOJwANoJpKPUE1Id@dpg-cmtcskqcn0vc73b9hpa0-a.oregon-postgres.render.com/gogeta'
 flask_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 flask_app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
