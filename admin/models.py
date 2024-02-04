@@ -23,7 +23,7 @@ class users(db.Model, UserMixin):
 
 class Post(db.Model):
     _id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(14), nullable=False)
+    name = db.Column(db.String(50), nullable=False)
     content = db.Column(db.Text, nullable=False)
     date_posted = db.Column(db.DateTime(timezone=True), default=func.now())
     #ondelete="CASCADE" this means that if we deleted a user all of his posts will be deleted too 
@@ -33,7 +33,7 @@ class Post(db.Model):
 
 class Comments(db.Model):
     _id = db.Column(db.Integer, primary_key=True)
-    comment = db.Column(db.String(300), nullable=False)
+    comment = db.Column(db.String(500), nullable=False)
     date_posted = db.Column(db.DateTime(timezone=True), default=func.now()) 
     users_id = db.Column(db.Integer, db.ForeignKey('users._id', ondelete="CASCADE"), nullable=False)
     post_id = db.Column(db.Integer, db.ForeignKey('post._id', ondelete="CASCADE"), nullable=False)

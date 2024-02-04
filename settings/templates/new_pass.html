@@ -30,6 +30,13 @@
         <button type="submit" class="submit">
             <span class="sign-text">Sign in</span>
         </button>
+        {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for  message in messages %}
+                    <p style="font-size: 14px; color:rgb(230, 25, 25);">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+        {% endwith %}
 
         <p class="signup-link">
             No account?

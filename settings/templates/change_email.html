@@ -5,12 +5,21 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="static/change_email.css">
-    <title>Document</title>
+    <title>Change Email</title>
 </head>
 
 <body>
     <div class="container">
         <h1>Change your email</h1>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-warning alert-dismissible" role="alert">
+            <p style="font-size: 15px;">{{ message }}</p>
+        </div>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
         <form action="{{ url_for('third.change_email') }}" method="post" class="mt-4">
             <div class="form-group">
                 <label for="email" class="center-label">Enter your new email:</label>

@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="static/log_in.css">
-    <title>Document</title>
+    <title>Log-in</title>
 </head>
 
 <body>
@@ -29,6 +29,13 @@
         <div class="input-container">
             <input class="input-pwd" type="password" placeholder="Enter password" name="password">
         </div>
+        {% with messages = get_flashed_messages() %}
+        {% if messages %}
+        {% for message in messages %}
+        <p style="font-size: 14px; color:rgb(230, 25, 25);">{{ message }}</p>
+        {% endfor %}
+        {% endif %}
+        {% endwith %}
         <button type="submit" class="submit">
             <span class="sign-text">Sign in</span>
         </button>
@@ -37,12 +44,16 @@
             No account?
             <a href="{{url_for('app.sign_up')}}" class="up">Sign up!</a>
         </p>
-        <p>
+        <p class="forget-link">
             <a href="{{url_for('app.backup_password')}}">
-                I forgot my password
+                Forgot password?
             </a>
         </p>
-        <button type="button", onclick="window.location.href='{{ url_for('app.delete_data') }}';"></button>
+        <p class="forget-link">
+            <a href="{{url_for('app.support')}}">
+                Contact Support.
+            </a>
+        </p>
     </form>
     
 

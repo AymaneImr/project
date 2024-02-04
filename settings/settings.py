@@ -16,7 +16,6 @@ third = Blueprint("third", __name__,template_folder="templates", static_folder="
 
 ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 
-
 # this page will contain a global user and channel setting 
 # 1--> give the user the full controll of his acc 
 # 2--> the user can change his 'password' and 'email' and 'username'
@@ -29,7 +28,6 @@ ALLOWED_EXTENSIONS = {'png', 'jpg', 'jpeg'}
 def settings():
     usr = users.query.filter_by(_id=current_user._id).first()
     return render_template("settings.html", usr=usr)
-
 
 @third.route("/change_password", methods=["POST", "GET"])
 @login_required
@@ -68,10 +66,10 @@ def change_password():
             send_code()
             return redirect(url_for("app.verification"))
         else:
-            return "email not found"
-    return redirect(request.referrer)
+            flash("This email doesn't exist", 'error')
+            return redirect(request.referrer)
+    return render_template("settings.html")
 
-# check if the code in session so the page can't be loaded without doing all the steps 
 @third.route("/verification", methods=['POST', 'GET'])
 @login_required
 def verification():
@@ -80,9 +78,9 @@ def verification():
         if code1 == session["veri_code"]:
             return redirect(url_for("app.confirm_pass"))
         else:
-            return "<p>bro there's 2 only options,<br><br>either you are somehow blind<br>or<br> you are a damn theif(like what are you gonna achieve if u stole someone's account)</p>"
-    else:
-        return render_template("verification_code.html")
+            flash('Incorrect code', 'error')
+            return redirect(request.url)
+    return render_template("verification_code.html")
 
 @third.route("/confirm_pass", methods=["POST", "GET"])
 @login_required
@@ -96,10 +94,9 @@ def confirm_pass():
             db.session.commit()
             return redirect(url_for("app.login"))
         else:
-            return "dude come on how old are you, you still can't memorize your new password"
-    else:
-        return render_template("new_pass.html")
-
+            flash('Must be the same password !', 'warning')
+            return redirect(request.url)
+    return render_template("new_pass.html")
 
 @third.route("/email_verification", methods=["POST", "GET"])
 @login_required
@@ -117,16 +114,17 @@ def email_verification():
                     return redirect(url_for("third.change_email"))
                 else:
                     '''flash -> wrong password Sir'''
-                    return ' wrong password Sir'
+                    flash('Wrong password')
+                    return redirect(request.url)
             else:
                 '''flash -> it should be the same email '''
-                return 'it should be the same email Sir'
+                flash('Must be the same  Email!')
+                return redirect(request.url)
         else:
             '''flash -> this is not your email Sir'''
-            return "this is not your email Sir"
-    else:
-        return render_template("verify_email.html")
-
+            flash('Looks like you entered incorrect account information')
+            return redirect(request.url)
+    return render_template("settings.html")
 
 @third.route("/change_email", methods=["POST", "GET"])
 @login_required
@@ -143,10 +141,11 @@ def change_email():
                 return redirect(url_for("third.settings"))
             else:
                 flash('It should be the same Email', 'error')
-                return 'machi nefs email'
+                return redirect(request.url)
         else:
             '''flash -> email already taken Sir'''
-            return 'email already taken Sir'
+            flash('The email is already taken')
+            return redirect(request.url)
     return render_template("change_email.html")
 
 @third.route("/change-user-info", methods=["POST", "GET"])
@@ -169,12 +168,13 @@ def change_user_info():
                 return redirect(url_for("third.settings"))
             else:
                 '''flash -> wrong password Sir'''
-                return ' wrong password Sir'
+                flash('Wrong password')
+                return redirect(request.referrer)
         else:
             '''flash -> username already taken Sir'''
-            return ' username already taken Sir'
-    else:
-        return render_template("user_info.html")
+            flash('The username is already taken')
+            return redirect(request.referrer)
+    return render_template("settings.html")
 
 def allowed_file(filename):
     return '.' in filename and \
@@ -187,7 +187,7 @@ def upload_image():
         image = request.files['image']
         if image.filename == '':
             flash('no file selected', 'error')
-            return redirect(request.url)
+            return redirect(request.referrer)
         if image and allowed_file(image.filename):
             pic_filename = secure_filename(image.filename)
             pic_name = str(uuid.uuid1()) + "_" + pic_filename
@@ -196,4 +196,5 @@ def upload_image():
             db.session.commit()
             flash('Picture added successfuly', 'success')
             return redirect(url_for('third.settings'))
+        flash('The file is not supported as an image')
     return render_template("settings.html")

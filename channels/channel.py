@@ -14,8 +14,7 @@ def my_channel(username):
     quotes = user.posts
     return render_template("my_channel.html", quotes=quotes, user=user)
 
-'''create a quote or a post / pictures
-'''
+'''create a quote or a post / pictures'''
 
 @fourth.route('/create_quote', methods=['POST', 'GET'])
 @login_required
@@ -24,11 +23,14 @@ def create_quote():
         # extract name, content of the quote, 
         quote_name = request.form.get('quote_name')
         content = request.form.get("content")
+        if len(quote_name) > 48:
+            flash('Too long for just a Title!')
+            return redirect(request.url)
         add_content = Post(name=quote_name, content=content, users_id=current_user._id)
         db.session.add(add_content)
         db.session.commit()
-        flash("quote added successfuly ", category="success")
-        time.sleep(2)
+        flash("Quote added successfuly!")
+        time.sleep(1)
         return redirect(url_for("fourth.my_channel", username=current_user.username))
     return render_template("create_quote.html")
 
@@ -80,12 +82,7 @@ def like(post_id):
         db.session.commit()
     return jsonify({"likes": len(post.likes), "liked": current_user._id in map(lambda x: x.users_id, post.likes)})
 
-@fourth.route("/mychannel/<username>")
-@login_required
-def posts(username):
-    user = users.query.filter_by(_id=current_user._id).first()
-    quotes = user.posts
-    return redirect(url_for('fourth.my_channel', username=username))
+
 
 @fourth.route('/delete_comment/<id>')
 @login_required
@@ -98,3 +95,11 @@ def delete_comment(id):
     db.session.commit()
     flash('Seccessfuly deleted comment', 'seccess')
     return redirect(request.referrer)
+
+@fourth.route("/search", methods=['POST'])
+def search():
+    if request.method == 'POST':
+        search = request.form.get("search")
+        results = users.query.filter(users.username.like("%" + search + "%")).order_by(users.date_joined).limit(10).all()
+        return render_template('search_results.html', results=results, search=search)
+    return render_template("my_channel.html")

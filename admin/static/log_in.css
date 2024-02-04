@@ -138,6 +138,19 @@ body {
     text-decoration: underline;
 }
 
+.forget-link {
+    
+    text-align: center;
+    
+}
+
+.forget-link a {
+    color: #c0c0c0;
+    font-size: 0.875rem;
+    line-height: 1.25rem;
+    font-family: monospace;
+    text-decoration-color: blue;
+}
 
 /*--------header section-----------*/
 
@@ -312,3 +325,4 @@ body {
     animation-delay: 1.6s;
     animation-duration: 1.6s;
 }
+

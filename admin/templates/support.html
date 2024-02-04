@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="static/support.css">
+    <title>Support</title>
+</head>
+
+<body>
+    <form action="{{ url_for('app.support') }}" method="post">
+        <div class="input-container">
+            <input type="text" name="name" placeholder="Name" required>
+        </div>
+        <div class="input-container" style="grid-row: 2/3;">
+            <input type="email" name="email" placeholder="Email" required>
+        </div>
+        <div class="input-container" style="grid-row: 4/5;">
+            <textarea name="complain" placeholder="Complain" rows="4" required>
+            </textarea>
+        </div>
+        <div class="input-container" style="grid-row: 6/7;">
+            <button type="submit" class="submit">
+                Send Message
+            </button>
+        </div>
+    </form>
+</body>
+
+</html>

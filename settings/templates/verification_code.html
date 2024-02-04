@@ -20,6 +20,13 @@
             <div class="input-fields">
                 <input placeholder type="tel" maxlength="6" name="code">
             </div>
+            {% with messages = get_flashed_messages() %}
+            {% if messages %}
+                {% for  message in messages %}
+                    <p style="font-size: 14px; color:rgb(230, 25, 25);">{{ message }}</p>
+                {% endfor %}
+            {% endif %}
+            {% endwith %}
 
             <div class="action-btns">
                 <button class="submit">Verify</button>

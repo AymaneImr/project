@@ -9,52 +9,65 @@
         integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65" crossorigin="anonymous">
     <link rel="stylesheet" href="static/my_channels.css">
     <script src="https://kit.fontawesome.com/047be3902d.js" crossorigin="anonymous"></script>
+    <script src="https://unpkg.com/htmx.org@1.9.10"></script>
 </head>
 
 <body>
     <!-- position fixed -->
-    <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
-        <a class="navbar-brand" href="{{url_for('app.website')}}">Home</a>
-        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup"
-            aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
-            <div class="navbar-nav">
-                <a class="nav-item nav-link active" href="{{url_for('fourth.channels')}}">Channels<span
-                        class="sr-only">(current)</span></a>
-                <a class="nav-item nav-link" href="{{url_for('fourth.posts', username=current_user.username)}}">My channel</a>
-                <a class="nav-item nav-link" href="{{url_for('fourth.create_quote')}}">Create quotes</a>
-                <a class="nav-item nav-link" href="{{url_for('third.settings')}}">Settings</a>
-                <a class="nav-item nav-link" href="{{url_for('app.logout')}}">Log-out</a>
+    <header>
+        <nav class="navbar navbar-expand-lg navbar-light bg-light fixed-top">
+            <a class="navbar-brand" href="{{url_for('fourth.channels')}}">Channels</a>
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup"
+                aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+                <div class="navbar-nav">
+                    <a class="nav-item nav-link" href="{{url_for('fourth.my_channel', username=current_user.username)}}">My
+                        channel</a>
+                    <a class="nav-item nav-link" href="{{url_for('fourth.create_quote')}}">Create quotes</a>
+                    <a class="nav-item nav-link" href="{{url_for('third.settings')}}">Settings</a>
+                    <a class="nav-item nav-link" href="{{url_for('app.logout')}}">Log-out</a>
+                </div>
             </div>
-        </div>
-
-    </nav>
+            <form action="{{url_for('fourth.search')}}" method="post" class="d-flex">
+                <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search" name="search">
+                <button class="btn btn-outline-success" type="submit">Search</button>
+            </form>
+        </nav>
+    
+    {% with messages = get_flashed_messages() %}
+    {% if messages %}
+    {% for message in messages %}
+    <div class="alert alert-success alert-dismissible fade show" role="alert" style="margin-top: 50px;  margin-left: 40%; width: 25%">
+        <p style="font-size: 15px;">{{ message }}</p>
+        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+    </div>
+    {% endfor %}
+    {% endif %}
+    {% endwith %}
     {% for post in quotes %}
-
     <div class="card">
-        
         <div class="user-info">
             {% if post.users.image_profile %}
             <img src="{{url_for('app.static', filename='images/' + post.users.image_profile)}}" alt="Profile Picture"
-            class="user-picture" width="70px" height="70px">
+                class="user-picture" width="70px" height="70px">
             {% else %}
             <img src="{{url_for('app.static', filename='images/default_pic.jpg')}}" alt="default profile"
                 class="user-picture" width="70px" height="70px">
             {% endif %}
-            <div class="user-name"><a href="{{url_for('fourth.posts', username=current_user.username)}}" style="text-decoration: none;">{{user.username}}</a></div>
+            <div class="user-name"><a href="{{url_for('fourth.my_channel', username=current_user.username)}}"
+                    style="text-decoration: none;">{{user.username}}</a></div>
         </div>
         <p class="text-muted text-right date-created date-posted">{{post.date_posted}}</p>
-        
+
         <div class="post-content">
             <div class="post-title">{{post.name}}</div>
             <div class="post-text">{{post.content}}</div>
         </div>
         {% if current_user._id == post.users._id %}
         <div class="dropdown">
-            <button class="btn btn-sm " type="button" data-bs-toggle="dropdown"
-                aria-expanded="false">
+            <button class="btn btn-sm " type="button" data-bs-toggle="dropdown" aria-expanded="false">
                 <i class="fa-solid fa-ellipsis-vertical"></i>
             </button>
             <ul class="dropdown-menu dropdown-menu-end">
@@ -69,43 +82,46 @@
             {% else %}
             <i class="fa-regular fa-heart" id="like-button-{{post._id}}" onclick="Like({{post._id}})"></i>
             {% endif %}
-            <div class=" accordion-item align-content-lg-end"><span id="likes-count-{{post._id}}">{{post.likes|length}}</span></div>
+            <div class=" accordion-item align-content-lg-end"><span
+                    id="likes-count-{{post._id}}">{{post.likes|length}}</span></div>
         </div>
         <div class="card-comments">
             <div class="card-text">{{post.text}}</div>
-            <br/>
+            <br />
             {% for comment in post.comments %}
             <div class="collapse" id="comments-{{post._id}}">
                 <div class="card-te">
                     <div class="card-body" id="comments-expanded-{{post._id}}">
-                        
+
                         <div class="d-flex justify-content-between align-items-center">
                             <div>
-                                <a href="{{url_for('fourth.my_channel', username=post.users.username)}}" style="text-decoration: none;">{{comment.users.username}}</a>:
+                                <a href="{{url_for('fourth.my_channel', username=comment.users.username)}}"
+                                    style="text-decoration: none;">{{comment.users.username}}</a>:
                                 {{comment.comment}}
                             </div>
                             <div>
                                 {% if current_user._id == comment.users_id or current_user._id == post.users._id %}
                                 <div class="btn-group">
-                                    <button type="button" class="btn btn-sm"
-                                        data-bs-toggle="dropdown"><i class="fa-solid fa-ellipsis-vertical"></i></button>
+                                    <button type="button" class="btn btn-sm" data-bs-toggle="dropdown"><i
+                                            class="fa-solid fa-ellipsis-vertical"></i></button>
                                     <ul class="dropdown-menu">
                                         <li>
-                                            <a class="dropdown-item" href="{{url_for('fourth.delete_comment', id=comment._id)}}">Delete</a>
+                                            <a class="dropdown-item"
+                                                href="{{url_for('fourth.delete_comment', id=comment._id)}}">Delete</a>
                                         </li>
                                     </ul>
                                 </div>
                                 {% endif %}
                             </div>
                         </div>
-                        
+
                     </div>
                 </div>
             </div>
             {% endfor %}
             <p class="card-text">
                 {% if post.comments|length > 0 %}
-                <a data-bs-toggle="collapse" href="#comments-{{post._id}}" role="button" >
+                <a data-bs-toggle="collapse" href="#comments-{{post._id}}" role="button">
                     <small>View {{post.comments|length}} Comments</small>
                 </a>
                 {% else %}
@@ -113,7 +129,8 @@
                 {% endif %}
             </p>
             <form class="input-group mb-3" method="POST" action="{{url_for('fourth.add_comments',id=post._id)}}">
-                <input type="text" id="text" name="comment" class="form-control" placeholder="Comment something!" />
+                <input type="text" id="text" name="comment" class="form-control" placeholder="Comment something!"
+                    maxlength="499" />
                 <button type="submit" class="btn btn-primary">Comment</button>
             </form>
         </div>
