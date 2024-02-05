@@ -18,7 +18,7 @@ flask_app.app_context().push()
 
 UPLOAD_FOLDER = 'admin/static/images/'
 
-flask_app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://gogeta_user:NxCxcGMG5oIVJMldkOJwANoJpKPUE1Id@dpg-cmtcskqcn0vc73b9hpa0-a.oregon-postgres.render.com/gogeta'
+flask_app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://gogeta_sql_user:6b5v7SWlGVouawSXO1ZCjZ7dptPFS77P@dpg-cn0m0hocmk4c73denh80-a.oregon-postgres.render.com/gogeta_sql'
 flask_app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 flask_app.config['UPLOAD_FOLDER'] = UPLOAD_FOLDER
 
