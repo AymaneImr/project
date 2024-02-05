@@ -96,10 +96,14 @@ def delete_comment(id):
     flash('Seccessfuly deleted comment', 'seccess')
     return redirect(request.referrer)
 
-@fourth.route("/search", methods=['POST'])
+@fourth.route("/search", methods=['POST','GET'])
 def search():
     if request.method == 'POST':
         search = request.form.get("search")
-        results = users.query.filter(users.username.like("%" + search + "%")).order_by(users.date_joined).limit(10).all()
-        return render_template('search_results.html', results=results, search=search)
+        if search != "":
+            results = users.query.filter(users.username.like("%" + search + "%")).order_by(users.date_joined).order_by(users.f_name).limit(10).all()
+            return render_template('search_results.html', results=results, search=search)
+        else:
+            resultt = "Please enter a word"
+            return render_template('search_results.html', resultt=resultt)
     return render_template("my_channel.html")

@@ -21,8 +21,8 @@ app = Blueprint('app', __name__, static_folder='static', template_folder='templa
 @app.route("/login", methods=["POST", "GET"])
 def login():
     if request.method == "POST":
-        username = request.form["username"]
-        password = request.form["password"]
+        username = request.form.get("username")
+        password = request.form.get("password")
         user = users.query.filter_by(username=username).first()
         if user:
             if check_password_hash(user.password, password):
@@ -168,7 +168,7 @@ def confirm_pass():
         confirm_pass = request.form.get("new_pass2")
         if new_pass == confirm_pass:
             admin = users.query.filter_by(email=session["email_pass"]).first()
-            admin.password = confirm_pass
+            admin.password = generate_password_hash(confirm_pass, method='pbkdf2:sha256')
             db.session.commit()
             return redirect(url_for("app.login"))
         else:

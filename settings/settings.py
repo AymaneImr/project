@@ -6,7 +6,7 @@ from email.message import EmailMessage
 import ssl
 import smtplib
 from flask_login import login_required, current_user
-from werkzeug.security import check_password_hash
+from werkzeug.security import check_password_hash, generate_password_hash
 from werkzeug.utils import secure_filename
 import os
 import uuid as uuid
@@ -90,7 +90,7 @@ def confirm_pass():
         confirm_pass = request.form.get("new_pass2")
         if new_pass == confirm_pass:
             admin = users.query.filter_by(email=session["email_pass"]).first()
-            admin.password = confirm_pass
+            admin.password = generate_password_hash(confirm_pass, method='pbkdf2:sha256')
             db.session.commit()
             return redirect(url_for("app.login"))
         else:

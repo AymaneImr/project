@@ -12,6 +12,9 @@
     <div class="container">
         <h1>Search Results</h1>
         <h4>for "{{search}}"</h4>
+        {% if resultt %}
+        <h2>{{resultt}}</h2>
+        {% endif %}
         {% for result in results %}
         <div class="user-list">
             {% if result.image_profile %}
