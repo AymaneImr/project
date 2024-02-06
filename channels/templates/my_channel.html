@@ -56,8 +56,8 @@
             <img src="{{url_for('app.static', filename='images/default_pic.jpg')}}" alt="default profile"
                 class="user-picture" width="70px" height="70px">
             {% endif %}
-            <div class="user-name"><a href="{{url_for('fourth.my_channel', username=current_user.username)}}"
-                    style="text-decoration: none;">{{user.username}}</a></div>
+            <div class="user-name"><a href="{{url_for('fourth.my_channel', username=post.users.username)}}"
+                    style="text-decoration: none;">{{post.users.username}}</a></div>
         </div>
         <p class="text-muted text-right date-created date-posted">{{post.date_posted}}</p>
 
